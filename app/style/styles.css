@@ -1,0 +1,65 @@
+html, body, #app{
+	height: 100%;
+}
+
+
+.app-container{
+	width: 100%;
+	height: 100%;
+}
+
+.graph-container{
+	border: 2px solid black;
+	display: block;
+	margin: auto;
+	width: 50%;
+	height: 400px;
+}
+
+.deposit{
+	display: inline-block;
+	margin: 5px;
+}
+
+.deposit > .label{
+
+}
+
+.inputs{
+	display: block;
+	margin: auto;
+}
+
+.deposits-container{
+	display: block;
+	margin: auto;
+	width: 50%;
+}
+
+.inline{
+	display: inline;
+}
+
+.sm-margin{
+	margin: 5px;
+}
+
+.buttons{
+	display: block;
+	margin: auto;
+}
+
+.buttons > .clear{
+	margin: auto;
+	display: block;
+	width: 25%;
+	padding: 15px;
+	border: none;
+	border-radius: 0;
+	margin-top: 25px;
+
+}
+
+.buttons > .clear:hover{
+	background-color: #e6e6e6;
+}
