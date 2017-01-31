@@ -21,9 +21,6 @@ html, body, #app{
 	margin: 5px;
 }
 
-.deposit > .label{
-
-}
 
 .inputs{
 	display: block;
@@ -33,7 +30,7 @@ html, body, #app{
 .deposits-container{
 	display: block;
 	margin: auto;
-	width: 50%;
+	width: 100%;
 }
 
 .inline{
@@ -49,7 +46,7 @@ html, body, #app{
 	margin: auto;
 }
 
-.buttons > .clear{
+/*.buttons > .clear{
 	margin: auto;
 	display: block;
 	width: 25%;
@@ -58,7 +55,7 @@ html, body, #app{
 	border-radius: 0;
 	margin-top: 25px;
 
-}
+}*/
 
 .buttons > .clear:hover{
 	background-color: #e6e6e6;
