@@ -9,30 +9,28 @@ var deposits = React.createClass({
 		return {values: valuesArray};
 	},
 	componentWillReceiveProps: function(nextProps){
-		console.log("Clear values is " + nextProps.clearValues);
 		if(nextProps.clearValues){
 			this.clearValues();
 		}
 	},
-	componentDidUpdate: function(prevProps, prevState){
-
-	},
 	handleChange: function(i, e){
 			var newValues = this.state.values.slice();
 			newValues[i] = e.target.value;
-			this.setState({
-				values: newValues
-			});
-		console.log("Set state to " + e.target.value);
+			// this.setState({
+			// 	values: newValues
+			// });
 
-		console.log(this.state.values);
+		this.setState({values: newValues}, ()=> {
+			this.props.changeFunc(this.state.values);
+		});
 
+		//Moved into the callback function of set state
 		//Communicate State back to parent to update graph
-		this.props.changeFunc(this.state.values);
-
-		// for(var i = 0; i < this.props.numToShow; i++){
-		// 	console.log(this.state.values[i]);
-		// }
+		//this.props.changeFunc(this.state.values);
+	},
+	componentDidUpdate: function(){
+		//Try setting the state here if it doesn't work inside the callback function of handle change
+		 //this.props.changeFunc(this.state.values);
 	},
 	clearValues: function(){
 		var valuesArray = [];
@@ -41,8 +39,11 @@ var deposits = React.createClass({
 		}
 		this.setState({
 			values: valuesArray
+		}, ()=>{
+			this.props.resetClear();
+			this.props.changeFunc(this.state.values)
 		})
-		this.props.resetClear();
+		
 	},
 	render: function(){
 		var depositFields = [];

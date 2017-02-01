@@ -2,10 +2,6 @@ var React = require('react');
 
 var chart = React.createClass({
 	componentDidUpdate: function(){
-		console.log("draw on the canvas");
-
-			console.log("In Chart");
-			
 
 		//Complete array with data 
 		var dataToPaint = [];
@@ -24,17 +20,12 @@ var chart = React.createClass({
 			})
 		}
 
-		console.log(dataToPaint);
-
 		d3.select(".graph-container").selectAll("*").remove();
 
 
 		var g = d3.select(".graph-container")
 					.append("g")
 					.attr("transform", "translate(50, 50)");
-
-		console.log(d3.extent(dataToPaint, function(d){return d.time}));
-		console.log(d3.extent(dataToPaint, function(d){return parseInt(d.balance)}));
 
 		var x = d3.scaleLinear().domain(d3.extent(dataToPaint, function(d){return d.time})).rangeRound([0, 500]);
 		var y = d3.scaleLinear().domain(d3.extent(dataToPaint, function(d){return d.balance})).rangeRound([300, 0]);
@@ -71,8 +62,6 @@ var chart = React.createClass({
 		      .attr("stroke-linecap", "round")
 		      .attr("stroke-width", 1.5)
 		      .attr("d", line);
-
-		      console.log("Exiting chart...");
 
 	},
 	componentDidMount: function(){

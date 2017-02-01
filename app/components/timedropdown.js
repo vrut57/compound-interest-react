@@ -15,7 +15,6 @@ var dropdown1 = React.createClass({
 		else{
 			numToShow = 12;
 		}
-		console.log("This will show " + numToShow + " " + e.target.value);
 		this.setState({number: numToShow});
 	},
 	handleClearClick: function(e){
@@ -27,7 +26,6 @@ var dropdown1 = React.createClass({
 		this.setState({
 			clearValues: false
 		})
-		console.log("Clear values set to " + this.state.clearValues);
 	},
 	render: function(){
 		return (

@@ -6,11 +6,7 @@ var depositContainer = React.createClass({
 	getInitialState: function(){
 		return {values: []};
 	},
-	printValues: function(dataArray){
-		console.log(dataArray);
-		for(var i = 0; i < dataArray.length; i++){
-			console.log(dataArray[i]);
-		}
+	updateValues: function(dataArray){
 		this.setState({
 			values: dataArray
 		})
@@ -19,7 +15,7 @@ var depositContainer = React.createClass({
 		return (
 		<div className = "deposit-container">
 			<Chart data = {this.state.values}/>
-			<Dropdown1 changeFunc={this.printValues}/>
+			<Dropdown1 changeFunc={this.updateValues}/>
 		</div>
 		);
 	}
