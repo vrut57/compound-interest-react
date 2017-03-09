@@ -8,11 +8,6 @@ var deposits = React.createClass({
 		
 		this.props.updateDeposits(newValues);
 	},
-	componentWillReceiveProps: function(newProps){
-		console.log(newProps);
-		this.props = newProps;
-		this.forceUpdate();
-	},
 	render: function(){
 		var depositFields = [];
 		for(var i = 0; i < this.props.numToShow; i ++){

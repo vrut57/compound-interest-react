@@ -1,5 +1,4 @@
 var React = require('react');
-var Deposits = require('./deposits');//Is this needed? 
 
 var rateButton = React.createClass({
 	changeRateHandler: function(e){

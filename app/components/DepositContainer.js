@@ -4,7 +4,16 @@ var Chart = require('./chart');
 
 var depositContainer = React.createClass({
 	getInitialState: function(){
-		return {values: [], rate: 5};
+		
+		var valuesArr = [];
+		for(var i = 0; i < 20; i++){
+			valuesArr.push("");
+		}
+		
+		return {values: valuesArr, rate: 5, numToShow: 20};
+	},
+	setNumToShow: function(newNum){
+		this.setState({numToShow: newNum})
 	},
 	updateDeposits: function(dataArray){
 		this.setState({
@@ -17,8 +26,12 @@ var depositContainer = React.createClass({
 		})
 	},
 	clearAll: function(){
+		var valuesArr = [];
+		for(var i = 0; i < 20; i++){
+			valuesArr.push("");
+		}
 		this.setState({
-			values: [],
+			values: valuesArr,
 			rate: 5
 		}, function(){
 
@@ -29,7 +42,7 @@ var depositContainer = React.createClass({
 		return (
 		<div className = "deposit-container">
 			<Chart rate = {this.state.rate} data = {this.state.values}/>
-			<Dropdown1 clearAll = {this.clearAll} updateDeposits = {this.updateDeposits} depositValues = {this.state.values} rate = {this.state.rate} changeRate = {this.updateRate}/>
+			<Dropdown1 numToShow = {this.state.numToShow} setNumToShow = {this.setNumToShow} clearAll = {this.clearAll} updateDeposits = {this.updateDeposits} depositValues = {this.state.values} rate = {this.state.rate} changeRate = {this.updateRate}/>
 		</div>
 		);
 	}

@@ -16,7 +16,7 @@ var dropdown1 = React.createClass({
 		else{
 			numToShow = 12;
 		}
-		this.setState({number: numToShow});
+		this.props.setNumToShow(numToShow);
 	},
 	resetClearClick: function(){
 		this.setState({
@@ -35,7 +35,7 @@ var dropdown1 = React.createClass({
 		      </div>
 			  <Rate changeRate={this.props.changeRate} rate = {this.props.rate}/>
 			  <ClearButton clearAll = {this.props.clearAll}/>
-		      <Deposits updateDeposits ={this.props.updateDeposits} depositValues = {this.props.depositValues} unit={this.state.value} numToShow={this.state.number}
+		      <Deposits updateDeposits ={this.props.updateDeposits} depositValues = {this.props.depositValues} unit={this.state.value} numToShow={this.props.numToShow}
 		      clearValues={this.state.clearValues} resetClear={this.resetClearClick}/>
 	      </div>
 		);
