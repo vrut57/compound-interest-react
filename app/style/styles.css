@@ -13,12 +13,13 @@ html, body, #app{
 	display: block;
 	margin: auto;
 	width: 50%;
-	height: 400px;
+	height: 375px;
+	margin-bottom: 10px;
 }
 
 .deposit{
 	display: inline-block;
-	margin: 5px;
+	margin: 0px 5px;
 }
 
 
@@ -37,26 +38,26 @@ html, body, #app{
 	display: inline;
 }
 
+.clear-button{
+	margin: auto;
+	display: block;
+}
+
 .sm-margin{
 	margin: 5px;
 }
 
 .buttons{
-	display: block;
+	display: inline;
 	margin: auto;
+	margin: 0px 15px;
 }
 
-/*.buttons > .clear{
-	margin: auto;
-	display: block;
-	width: 25%;
-	padding: 15px;
-	border: none;
-	border-radius: 0;
-	margin-top: 25px;
-
-}*/
 
 .buttons > .clear:hover{
 	background-color: #e6e6e6;
+}
+
+.rate-input{
+	display: inline;
 }

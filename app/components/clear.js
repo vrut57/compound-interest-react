@@ -5,7 +5,8 @@ var clearButton = React.createClass({
 	render: function(){
 		return (
 		<div className="buttons">
-			<input className="clear" type="submit" value="Clear Values" onClick={this.props.onClick}/>
+			<input className="clear-button" type="submit"
+			value="Clear Values" onClick={this.props.clearAll}/>
 	      </div>
 		);
 	}

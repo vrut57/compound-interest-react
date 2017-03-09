@@ -1,10 +1,11 @@
 var React = require('react');
 var Deposits = require('./deposits');
 var ClearButton = require('./clear');
+var Rate = require('./Rate.js');
 
 var dropdown1 = React.createClass({
 	getInitialState: function(){
-		return {value: 'Year', number: 20, clearValues: false};
+		return {value: 'Year', number: 20};
 	},
 	handleChange: function(e){
 		this.setState({value: e.target.value});
@@ -16,11 +17,6 @@ var dropdown1 = React.createClass({
 			numToShow = 12;
 		}
 		this.setState({number: numToShow});
-	},
-	handleClearClick: function(e){
-		this.setState({
-			clearValues: true
-		})
 	},
 	resetClearClick: function(){
 		this.setState({
@@ -37,9 +33,10 @@ var dropdown1 = React.createClass({
 		            <option value="Month">Months</option>
 		          </select>
 		      </div>
-		      <Deposits unit={this.state.value} numToShow={this.state.number} changeFunc = {this.props.changeFunc}
+			  <Rate changeRate={this.props.changeRate} rate = {this.props.rate}/>
+			  <ClearButton clearAll = {this.props.clearAll}/>
+		      <Deposits updateDeposits ={this.props.updateDeposits} depositValues = {this.props.depositValues} unit={this.state.value} numToShow={this.state.number}
 		      clearValues={this.state.clearValues} resetClear={this.resetClearClick}/>
-		      <ClearButton onClick={this.handleClearClick}/>
 	      </div>
 		);
 	}

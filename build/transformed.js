@@ -21510,11 +21510,7 @@
 		getInitialState: function () {
 			return { values: [] };
 		},
-		printValues: function (dataArray) {
-			console.log(dataArray);
-			for (var i = 0; i < dataArray.length; i++) {
-				console.log(dataArray[i]);
-			}
+		updateValues: function (dataArray) {
 			this.setState({
 				values: dataArray
 			});
@@ -21524,7 +21520,7 @@
 				'div',
 				{ className: 'deposit-container' },
 				React.createElement(Chart, { data: this.state.values }),
-				React.createElement(Dropdown1, { changeFunc: this.printValues })
+				React.createElement(Dropdown1, { changeFunc: this.updateValues })
 			);
 		}
 	});
@@ -21553,7 +21549,6 @@
 			} else {
 				numToShow = 12;
 			}
-			console.log("This will show " + numToShow + " " + e.target.value);
 			this.setState({ number: numToShow });
 		},
 		handleClearClick: function (e) {
@@ -21565,7 +21560,6 @@
 			this.setState({
 				clearValues: false
 			});
-			console.log("Clear values set to " + this.state.clearValues);
 		},
 		render: function () {
 			return React.createElement(
@@ -21620,28 +21614,28 @@
 			return { values: valuesArray };
 		},
 		componentWillReceiveProps: function (nextProps) {
-			console.log("Clear values is " + nextProps.clearValues);
 			if (nextProps.clearValues) {
 				this.clearValues();
 			}
 		},
-		componentDidUpdate: function (prevProps, prevState) {},
 		handleChange: function (i, e) {
 			var newValues = this.state.values.slice();
 			newValues[i] = e.target.value;
-			this.setState({
-				values: newValues
+			// this.setState({
+			// 	values: newValues
+			// });
+
+			this.setState({ values: newValues }, () => {
+				this.props.changeFunc(this.state.values);
 			});
-			console.log("Set state to " + e.target.value);
 
-			console.log(this.state.values);
-
+			//Moved into the callback function of set state
 			//Communicate State back to parent to update graph
-			this.props.changeFunc(this.state.values);
-
-			// for(var i = 0; i < this.props.numToShow; i++){
-			// 	console.log(this.state.values[i]);
-			// }
+			//this.props.changeFunc(this.state.values);
+		},
+		componentDidUpdate: function () {
+			//Try setting the state here if it doesn't work inside the callback function of handle change
+			//this.props.changeFunc(this.state.values);
 		},
 		clearValues: function () {
 			var valuesArray = [];
@@ -21650,8 +21644,10 @@
 			}
 			this.setState({
 				values: valuesArray
+			}, () => {
+				this.props.resetClear();
+				this.props.changeFunc(this.state.values);
 			});
-			this.props.resetClear();
 		},
 		render: function () {
 			var depositFields = [];
@@ -21701,7 +21697,8 @@
 			return React.createElement(
 				'div',
 				{ className: 'buttons' },
-				React.createElement('input', { className: 'clear', type: 'submit', value: 'Clear Values', onClick: this.props.onClick })
+				React.createElement('input', { className: 'clear-button', type: 'submit',
+					value: 'Clear Values', onClick: this.props.onClick })
 			);
 		}
 	});
@@ -21718,9 +21715,6 @@
 		displayName: "chart",
 
 		componentDidUpdate: function () {
-			console.log("draw on the canvas");
-
-			console.log("In Chart");
 
 			//Complete array with data 
 			var dataToPaint = [];
@@ -21738,18 +21732,9 @@
 				});
 			}
 
-			console.log(dataToPaint);
-
 			d3.select(".graph-container").selectAll("*").remove();
 
 			var g = d3.select(".graph-container").append("g").attr("transform", "translate(50, 50)");
-
-			console.log(d3.extent(dataToPaint, function (d) {
-				return d.time;
-			}));
-			console.log(d3.extent(dataToPaint, function (d) {
-				return parseInt(d.balance);
-			}));
 
 			var x = d3.scaleLinear().domain(d3.extent(dataToPaint, function (d) {
 				return d.time;
@@ -21769,14 +21754,12 @@
 			g.append("g").call(d3.axisLeft(y)).append("text").attr("fill", "#000").attr("transform", "rotate(-90)").attr("y", 6).attr("dy", "0.71em").attr("text-anchor", "end").text("Balance ($)");
 
 			g.append("path").datum(dataToPaint).attr("fill", "none").attr("stroke", "steelblue").attr("stroke-linejoin", "round").attr("stroke-linecap", "round").attr("stroke-width", 1.5).attr("d", line);
-
-			console.log("Exiting chart...");
 		},
 		componentDidMount: function () {},
 		render: function () {
 			return React.createElement(
 				"div",
-				{ className: "buttons" },
+				{ className: "main" },
 				React.createElement("svg", { className: "graph-container" })
 			);
 		}

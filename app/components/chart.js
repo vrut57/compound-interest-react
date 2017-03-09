@@ -8,7 +8,7 @@ var chart = React.createClass({
 		for(var i = 0; i < this.props.data.length; i++){		
 			var thisDeposit = 0;
 			if(!!dataToPaint[i - 1]){
-				thisDeposit = (+dataToPaint[i - 1].balance * 1.06) + +this.props.data[i];
+				thisDeposit = (+dataToPaint[i - 1].balance * (1 + (this.props.rate)/100)) + +this.props.data[i];
 			}
 			else{
 				thisDeposit = +this.props.data[i];
@@ -69,7 +69,7 @@ var chart = React.createClass({
 	},
 	render: function(){
 		return (
-		<div className="buttons">
+		<div className="main">
 			<svg className="graph-container"></svg>
 	      </div>
 		);
