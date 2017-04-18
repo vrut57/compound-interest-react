@@ -21502,25 +21502,49 @@
 
 	var React = __webpack_require__(1);
 	var Dropdown1 = __webpack_require__(180);
-	var Chart = __webpack_require__(183);
+	var Chart = __webpack_require__(184);
 
 	var depositContainer = React.createClass({
 		displayName: 'depositContainer',
 
 		getInitialState: function () {
-			return { values: [] };
+
+			var valuesArr = [];
+			for (var i = 0; i < 20; i++) {
+				valuesArr.push("");
+			}
+
+			return { values: valuesArr, rate: 5, numToShow: 20 };
 		},
-		updateValues: function (dataArray) {
+		setNumToShow: function (newNum) {
+			this.setState({ numToShow: newNum });
+		},
+		updateDeposits: function (dataArray) {
 			this.setState({
 				values: dataArray
 			});
+		},
+		updateRate: function (newRate) {
+			this.setState({
+				rate: newRate
+			});
+		},
+		clearAll: function () {
+			var valuesArr = [];
+			for (var i = 0; i < 20; i++) {
+				valuesArr.push("");
+			}
+			this.setState({
+				values: valuesArr,
+				rate: 5
+			}, function () {});
 		},
 		render: function () {
 			return React.createElement(
 				'div',
 				{ className: 'deposit-container' },
-				React.createElement(Chart, { data: this.state.values }),
-				React.createElement(Dropdown1, { changeFunc: this.updateValues })
+				React.createElement(Chart, { rate: this.state.rate, data: this.state.values }),
+				React.createElement(Dropdown1, { numToShow: this.state.numToShow, setNumToShow: this.setNumToShow, clearAll: this.clearAll, updateDeposits: this.updateDeposits, depositValues: this.state.values, rate: this.state.rate, changeRate: this.updateRate })
 			);
 		}
 	});
@@ -21534,12 +21558,13 @@
 	var React = __webpack_require__(1);
 	var Deposits = __webpack_require__(181);
 	var ClearButton = __webpack_require__(182);
+	var Rate = __webpack_require__(183);
 
 	var dropdown1 = React.createClass({
 		displayName: 'dropdown1',
 
 		getInitialState: function () {
-			return { value: 'Year', number: 20, clearValues: false };
+			return { value: 'Year', number: 20 };
 		},
 		handleChange: function (e) {
 			this.setState({ value: e.target.value });
@@ -21549,12 +21574,7 @@
 			} else {
 				numToShow = 12;
 			}
-			this.setState({ number: numToShow });
-		},
-		handleClearClick: function (e) {
-			this.setState({
-				clearValues: true
-			});
+			this.props.setNumToShow(numToShow);
 		},
 		resetClearClick: function () {
 			this.setState({
@@ -21588,9 +21608,10 @@
 						)
 					)
 				),
-				React.createElement(Deposits, { unit: this.state.value, numToShow: this.state.number, changeFunc: this.props.changeFunc,
-					clearValues: this.state.clearValues, resetClear: this.resetClearClick }),
-				React.createElement(ClearButton, { onClick: this.handleClearClick })
+				React.createElement(Rate, { changeRate: this.props.changeRate, rate: this.props.rate }),
+				React.createElement(ClearButton, { clearAll: this.props.clearAll }),
+				React.createElement(Deposits, { updateDeposits: this.props.updateDeposits, depositValues: this.props.depositValues, unit: this.state.value, numToShow: this.props.numToShow,
+					clearValues: this.state.clearValues, resetClear: this.resetClearClick })
 			);
 		}
 	});
@@ -21606,48 +21627,12 @@
 	var deposits = React.createClass({
 		displayName: "deposits",
 
-		getInitialState: function () {
-			var valuesArray = [];
-			for (var i = 0; i < this.props.numToShow; i++) {
-				valuesArray.push("");
-			}
-			return { values: valuesArray };
-		},
-		componentWillReceiveProps: function (nextProps) {
-			if (nextProps.clearValues) {
-				this.clearValues();
-			}
-		},
 		handleChange: function (i, e) {
-			var newValues = this.state.values.slice();
+			//Call this.props.updateDeposits
+			var newValues = this.props.depositValues.slice();
 			newValues[i] = e.target.value;
-			// this.setState({
-			// 	values: newValues
-			// });
 
-			this.setState({ values: newValues }, () => {
-				this.props.changeFunc(this.state.values);
-			});
-
-			//Moved into the callback function of set state
-			//Communicate State back to parent to update graph
-			//this.props.changeFunc(this.state.values);
-		},
-		componentDidUpdate: function () {
-			//Try setting the state here if it doesn't work inside the callback function of handle change
-			//this.props.changeFunc(this.state.values);
-		},
-		clearValues: function () {
-			var valuesArray = [];
-			for (var i = 0; i < this.props.numToShow; i++) {
-				valuesArray.push("");
-			}
-			this.setState({
-				values: valuesArray
-			}, () => {
-				this.props.resetClear();
-				this.props.changeFunc(this.state.values);
-			});
+			this.props.updateDeposits(newValues);
 		},
 		render: function () {
 			var depositFields = [];
@@ -21666,8 +21651,8 @@
 							i
 						),
 						React.createElement("input", { type: "text",
-							value: this.state.values[i],
-							name: this.state.values[i],
+							value: this.props.depositValues[i],
+							name: this.props.depositValues[i],
 							onChange: this.handleChange.bind(this, i) })
 					)
 				));
@@ -21698,7 +21683,7 @@
 				'div',
 				{ className: 'buttons' },
 				React.createElement('input', { className: 'clear-button', type: 'submit',
-					value: 'Clear Values', onClick: this.props.onClick })
+					value: 'Clear Values', onClick: this.props.clearAll })
 			);
 		}
 	});
@@ -21707,6 +21692,35 @@
 
 /***/ },
 /* 183 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+
+	var rateButton = React.createClass({
+		displayName: "rateButton",
+
+		changeRateHandler: function (e) {
+			this.props.changeRate(e.target.value);
+		},
+		render: function () {
+			return React.createElement(
+				"div",
+				{ className: "rate-input" },
+				React.createElement(
+					"span",
+					{ className: "inline sm-margin" },
+					"Select Rate: "
+				),
+				React.createElement("input", { className: "rate-input-field", type: "number",
+					value: this.props.rate, onChange: this.changeRateHandler })
+			);
+		}
+	});
+
+	module.exports = rateButton;
+
+/***/ },
+/* 184 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(d3) {var React = __webpack_require__(1);
@@ -21721,7 +21735,7 @@
 			for (var i = 0; i < this.props.data.length; i++) {
 				var thisDeposit = 0;
 				if (!!dataToPaint[i - 1]) {
-					thisDeposit = +dataToPaint[i - 1].balance * 1.06 + +this.props.data[i];
+					thisDeposit = +dataToPaint[i - 1].balance * (1 + this.props.rate / 100) + +this.props.data[i];
 				} else {
 					thisDeposit = +this.props.data[i];
 				}
@@ -21766,10 +21780,10 @@
 	});
 
 	module.exports = chart;
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(184)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(185)))
 
 /***/ },
-/* 184 */
+/* 185 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// https://d3js.org Version 4.4.4. Copyright 2017 Mike Bostock.
