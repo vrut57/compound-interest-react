@@ -5,6 +5,7 @@ const MongoClient = require('mongodb').MongoClient;
 
 var db;
 
+//Connect to mongo db. TODO Prompt for user name and password
 MongoClient.connect('mongodb://admin:admin@ds157631.mlab.com:57631/compound-interest', (err, database) => {
     if (err) return console.log(err);
     db = database;
