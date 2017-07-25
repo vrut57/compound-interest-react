@@ -1,6 +1,4 @@
 var React = require('react');
-// var Dropdown1 = require('./timedropdown.js');
-// var Chart = require('./chart');
 var DepositContainer = require('./DepositContainer');
 
 
