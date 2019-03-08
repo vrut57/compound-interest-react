@@ -1,0 +1,70 @@
+html, body, #app{
+	height: 100%;
+}
+
+h1, p{
+	text-align: center;
+}
+
+
+
+.app-container{
+	width: 100%;
+	height: 100%;
+	margin: auto;
+	display: block;
+}
+
+.graph-container{
+	border: 2px solid black;
+	display: block;
+	margin: auto;
+	width: 50%;
+	height: 375px;
+	margin-bottom: 10px;
+}
+
+.deposit{
+	display: inline-block;
+	margin: 0px 5px;
+}
+
+
+.inputs{
+	display: block;
+	margin: auto;
+}
+
+.deposits-container{
+	display: block;
+	margin: auto;
+	width: 100%;
+}
+
+.inline{
+	display: inline;
+}
+
+.clear-button{
+	margin: auto;
+	display: block;
+}
+
+.sm-margin{
+	margin: 5px;
+}
+
+.buttons{
+	display: inline;
+	margin: auto;
+	margin: 0px 15px;
+}
+
+
+.buttons > .clear:hover{
+	background-color: #e6e6e6;
+}
+
+.rate-input{
+	display: inline;
+}
