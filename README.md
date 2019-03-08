@@ -1,4 +1,4 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+https://travis-ci.org/vrut57/compound-interest-react.svg?branch=master
 
 ## Available Scripts
 
