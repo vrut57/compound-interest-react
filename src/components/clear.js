@@ -1,5 +1,4 @@
 import React from 'react';
-import Deposits from './deposits';
 
 class ClearButton extends React.Component{
 	render(){
